@@ -1,16 +1,9 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct  3 10:55:21 2017
+This is MD toycode for 1-particle 1-D
+with fast potential function fast(x) and slow potential function slow(x)
 
-@author: yyuan
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
 """
 import numpy as np
 import sys
@@ -101,22 +94,22 @@ def BAOAB(x,p,N,dt,M,seed,gamma):
 
 
 
-'oscillator parameters'
-k = 1
+'particle parameters'
 m = 1
-'system parameter'
+
+'system parameters'
 beta = 1
 
 def main(N, dt, M, seed, gamma, type_int="BAOAB", savepath='.'):
 
-    print "#  TOYCODE 3.0"
     N = int(N)
     dt = float(dt)
     M = int(M)
     seed = int(seed)
     gamma = float(gamma)
-
-    timenow = time.time()
+    now = time.strftime('%c')
+    
+    print "#  TOYCODE 3.0"
     print ""
     print "#  Total steps       : ", N
     print "#  Outer time step   : ", dt
@@ -124,9 +117,11 @@ def main(N, dt, M, seed, gamma, type_int="BAOAB", savepath='.'):
     print "#  Random seed       : ", seed
     print "#  gamma             : ", gamma
     print "#  Integrator        : ", type_int
-    print "# Sim starts at ", timenow
+    print "# Sim starts at ", now
+    
     p0 = 1
     x0 = 0 
+    
     if type_int == 'BAOAB':
         delta_time = time.time()
         data = BAOAB(x0,p0,N,dt,M,seed,gamma)
@@ -140,6 +135,7 @@ def main(N, dt, M, seed, gamma, type_int="BAOAB", savepath='.'):
 
     prefix = 'sim'
     filename = prefix+ "_" + type_int + '_' + str(dt) + "_" + "M" + str(M) + "_" + "gamma" + str(gamma) + ".data"
+    
     print "# Takes ", delta_time ," s."
     print "# Dumping output [step, position, momentum, energy_fast, energy_slow] in ", savepath + '/' + filename
     np.savetxt(savepath + '/' + filename, data)
@@ -149,4 +145,4 @@ if __name__ == '__main__':
     try:
       main(*sys.argv[1:])
     except:
-      print "USAGE: MTS3.0.py N dt M seed gamma type_int savepath"
+      print "USAGE: MTS3.0.py N dt M seed gamma type_int [savepath]"
